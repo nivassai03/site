@@ -1,0 +1,11 @@
+<div class="intro">
+    {{ with .Site.Params}}
+    <h2 class="title">{{ .title | default site.Title | markdownify}}</h2>
+    <p class="subtitle">{{ .subtitle | markdownify }}</p>
+    {{ end }}
+    <ul class="menu">
+        {{ range .Site.Menus.main }}
+         <li><a href="{{ .URL }}">{{ .Name }}</a></li>
+        {{ end }}
+    </ul>
+</div>

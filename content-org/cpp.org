@@ -1,0 +1,102 @@
+:PROPERTIES:
+:DIR:      static/img/
+:END:
+#+HUGO_BASE_DIR: ../
+#+PROPERTY: EXPORT_HUGO_SECTION notes/programming
+#+OPTIONS: tags:nil \n:t
+#+PROPERTY: header-args :results output :exports both
+#+HUGO_CUSTOM_FRONT_MATTER: :toc true
+#+HUGO_CUSTOM_FRONT_MATTER: :math true
+#+title: Cpp
+
+
+
+* Preprocessor
+
+** Translational Unit
+
+When the processing of code file is completed by the preprocessor, the result is called *translational unit*.
+
+- Translational units contain source code we write as well as the processed code from #include files.
+
+- The translational unit is what compiled by the compiler.
+
+#+begin_src cpp
+// add.h
+int add(int x, int y)
+#+end_src
+
+#+begin_src cpp
+// add.cpp
+#include "add.h"
+
+int add(int x,int y){
+    return x+y;
+}
+#+end_src
+
+In the above code blocks we have two files one contain function delcaration(add.h) and other contain function definitions(add.c).This two files make one translational unit.we compile it in the following way.
+
+#+begin_src bash
+g++ -c add.cpp
+#+end_src
+
+
+#+begin_src cpp
+// main.cpp
+
+#include <iostream>
+
+int main(int argc, char *argv[]) {
+    int x = 10;
+    int y = 20;
+    std::cout << "Addition of x and y: " << add(x,y);
+    return 0;
+}
+
+#+end_src
+
+
+* Variables
+
+Variables provide us with name storage spaces that our programs can maipulate.
+
+** Declaration
+*Declaration* makes name known to the program.
+
+** Definition
+*Definition* creates the associated entry.
+
+** Initialization
+
+
+** Linkage
+
+An Identifier's linkage determines whether other declarations of that name refer to the same object or not.
+
+There are two types of linkages
+- Internal Linkage
+- External Linkage
+
+*** Internal Linkage
+An identifier of internal linkage can be seen and used with in a single [[Translational Unit][translational unit]] but it is not accessible from other translational units.(not exposed to linker.)
+
+*** External Linkage
+An identifier of external linkage can be seen and used both from the file in which it is defined, and from the other code files.(using forward declaration)
+
+** Storage duration
+
+
+
+** Local variables
+
+- local variables have block scope.
+- local variables have automatic [[Storage duration][storage duration]].
+- local variables have no linkage.(each declaraion referes to unique object.)
+
+** Global variables.
+
+- By default non-const global variables have [[External Linkage][external linkage]].
+- Global variables with [[Internal Linkage][internal linkage]] are sometimes called *internal variables*.
+- To make non-const global variables internal use *static* keyword.
+- *const* and *constexpr* global varibles have internal linkage by default.

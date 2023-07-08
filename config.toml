@@ -1,0 +1,28 @@
+baseURL = 'http://example.org/'
+languageCode = 'en-us'
+title = 'mysite'
+theme = 'mytheme'
+
+[params]
+  title = "Nivas Pvs"
+  subtitle="Software Engineer"
+
+[menu]
+[[menu.main]]
+    identifier = "notes"
+    name = "Notes"
+    url = "/notes"
+    weight = 10 
+
+  [[menu.main]]
+    identifier = "blog"
+    name = "Blog"
+    url = "/blog"
+    weight = 20
+
+  [[menu.main]]
+    identifier = "about"
+    name = "About"
+    url = "/about"
+    weight = 30
+ 
