@@ -1,0 +1,11 @@
+{{$currentSection := .CurrentSection}}
+{{range $currentSection.Sections}}
+<div class="list">
+<h2 class="list-items-title">{{.Title}}</h2>
+<ul class="list-items">
+    {{range .Pages}}
+    <li class="list-item"><a href="{{.RelPermalink}}">{{.Title}}</a></li>
+    {{end}}
+</ul>
+{{end}}
+</div>

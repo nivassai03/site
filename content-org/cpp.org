@@ -7,6 +7,7 @@
 #+PROPERTY: header-args :results output :exports both
 #+HUGO_CUSTOM_FRONT_MATTER: :toc true
 #+HUGO_CUSTOM_FRONT_MATTER: :math true
+#+HUGO_PAIRED_SHORTCODES: box
 #+title: Cpp
 
 
@@ -94,7 +95,7 @@ An identifier of external linkage can be seen and used both from the file in whi
 - local variables have automatic [[Storage duration][storage duration]].
 - local variables have no linkage.(each declaraion referes to unique object.)
 
-** Global variables.
+** Global variables. :ATTACH:
 
 - By default non-const global variables have [[External Linkage][external linkage]].
 - Global variables with [[Internal Linkage][internal linkage]] are sometimes called *internal variables*.

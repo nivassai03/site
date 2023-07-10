@@ -4,12 +4,9 @@
     <body>
         {{- partial "header.html" . -}}
         <div class="docs">
-        <aside class="toc">
-            {{partial "toc.html" .}}
-        </aside>
-        <div id="content">
-        {{- block "main" . }}{{- end }}
-        </div>
+            <main>
+                {{- block "main" . }}{{- end }}
+            </main>
         </div>
         {{- partial "footer.html" . -}}
     </body>

@@ -1,0 +1,35 @@
+.list{
+    margin-top: 30px;
+}
+
+.list-items-title{
+    font-weight: 500;
+    display: inline;
+    border-bottom: 3px solid #595959;
+
+}
+.list-items{
+    padding-left: 1em;
+    line-height: 1.54;
+    font-weight: 400;
+}
+.list-item{
+    padding-left: 5px;
+}
+.list-items li{
+    list-style-type: '◉ ';
+    color: black;
+}
+.list-items li a{
+    color: black;
+    text-decoration: none;
+}
+.list-items li a:hover{
+    color: #80601f;
+}
+
+@media screen and (min-width: 760px){
+    .list-items{
+        max-width: 60vw;
+    }
+}
