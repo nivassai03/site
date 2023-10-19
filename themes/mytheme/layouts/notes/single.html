@@ -1,12 +1,6 @@
 {{partial "header.html" .}}
-<!-- <nav>
-     <ul class="notes-menu">
-     {{ range .Site.Menus.main }}
-     <li><a tabindex="-1" class="notes-menu-link" href="{{ .URL | relURL }}">{{ safeHTML .Name }}</a></li>
-     {{ end }}
-     </ul>
-     </nav> -->
-    <span class="toc-toggle-button material-symbols-outlined">list</span>
+{{partial "navbar.html" .}}
+<span class="toc-toggle-button material-symbols-outlined">list</span>
     <aside class="hidden lg:block toc" id="tableOfContentContainer">
             {{.TableOfContents}}
     </aside>

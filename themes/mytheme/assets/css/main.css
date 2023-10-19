@@ -79,9 +79,8 @@ body{
   .katex {
     font-size: 1.05em !important;
   }
-  p:has(span.katex){
+ }
+ p:has(span.katex){
     overflow-x: auto;
+    overflow-y: hidden;
   }
-}
-
-/* 8106454654 */

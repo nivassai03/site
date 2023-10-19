@@ -1,0 +1,26 @@
+:PROPERTIES:
+:DIR:      static/img/
+:END:
+#+HUGO_BASE_DIR: ../
+#+PROPERTY: EXPORT_HUGO_SECTION notes/iitm
+#+OPTIONS: tags:nil \n:t
+#+PROPERTY: header-args :results output :exports both
+#+HUGO_CUSTOM_FRONT_MATTER: :toc true
+#+HUGO_CUSTOM_FRONT_MATTER: :math true
+#+HUGO_PAIRED_SHORTCODES: box
+#+title: Programming Concpets Using Java
+
+
+
+* Introduction
+
+** Subtyping vs Inheritance
+
+- Class hierarchy represents both *subtyping* and *Inheritance*.
+- Subtyping
+  - Compatibility of interfaces.
+  - *B* is a subtype of *A* if every function that can be invoked on an object of type *A* can be also be invoked on an object of type B.
+
+- Inheritance
+  - Reuse of implementations.
+  - *B* inherits from *A* if some functions for *B* are written in terms of functions of *A*

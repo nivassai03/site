@@ -11,18 +11,21 @@ theme = 'mytheme'
 [[menu.main]]
     identifier = "notes"
     name = "Notes"
+    pre = "note_alt"
     url = "/notes"
     weight = 10 
 
   [[menu.main]]
     identifier = "blog"
     name = "Blog"
+    pre = 'feed'
     url = "/blog"
     weight = 20
 
   [[menu.main]]
     identifier = "about"
     name = "About"
+    pre = 'person'
     url = "/about"
     weight = 30
 

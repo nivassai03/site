@@ -1,0 +1,18 @@
+<div class="container">
+    <input type="checkbox" id="toggle" checked />
+    <label class="button" for="toggle">
+        <nav class="nav">
+            <ul class="nav-list">
+                <li class="nav-items">
+                    <a class="nav-items-link" href="/"><span class="material-icons">home</span></a>
+                </li>
+                {{ range .Site.Menus.main }}
+                <li class="nav-items"><a class="nav-items-link" href="{{ .URL | relURL }}">
+                        <span class="material-icons">{{ .Pre }}</span>
+                    </a>
+                </li>
+                {{ end }}
+            </ul>
+        </nav>
+    </label>
+</div>

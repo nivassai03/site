@@ -57,7 +57,6 @@ int main(int argc, char *argv[]) {
 
 #+end_src
 
-
 * Variables
 
 Variables provide us with name storage spaces that our programs can maipulate.
@@ -101,3 +100,26 @@ An identifier of external linkage can be seen and used both from the file in whi
 - Global variables with [[Internal Linkage][internal linkage]] are sometimes called *internal variables*.
 - To make non-const global variables internal use *static* keyword.
 - *const* and *constexpr* global varibles have internal linkage by default.
+
+** Top Level and Low Level Constants
+
+- *Top level* constant indicates that an object itself is const.
+- Top level constant can appear in any object type.(arithmetic types,class types,pointer type)
+- When an object can point to a const object that const is refered as *low level* constant.
+- Low-level const appears int the base type of compound types such as pointers and references.
+
+  #+begin_src cpp
+int i = 10;
+int *const a = &i;        // we cannot change value of a const is toplevel.
+const int b = 42;         // we cannot change b const is toplevel.
+const int *c = &b;        // we can change b const is low-level(c point to const int).
+const int &r = b;         // const in references is always low-level.
+const int *const e = c;   // right most const is top level, left most is not.
+  #+end_src
+
+* Lvalue and Rvalues
+are properties of expressions.
+
+
+When we use an object as an rvalue, we use object's contents.
+When we use an object as an lvalue, we use object's identity.
