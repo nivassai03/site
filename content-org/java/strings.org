@@ -1,0 +1,25 @@
+:PROPERTIES:
+:DIR:      static/img/
+:END:
+#+HUGO_BASE_DIR: ../../
+#+PROPERTY: EXPORT_HUGO_SECTION notes/java
+#+OPTIONS: tags:nil \n:t
+#+HUGO_CUSTOM_FRONT_MATTER: :toc true
+#+HUGO_CUSTOM_FRONT_MATTER: :math true
+#+PROPERTY: header-args :results output :exports both
+#+title: Strings
+
+
+
+* Strings
+
+** Substrings
+
+*substring* method to get substring from a larger string.
+
+#+begin_src java
+String name = 'Hemsworth';
+String sub_name = name.substring(0,3);
+
+// Creates string 'Hem'
+#+end_src

@@ -1,0 +1,32 @@
+:PROPERTIES:
+:DIR:      static/img/
+:END:
+#+HUGO_BASE_DIR: ../../
+#+PROPERTY: EXPORT_HUGO_SECTION notes/java
+#+OPTIONS: tags:nil \n:t
+#+HUGO_CUSTOM_FRONT_MATTER: :toc true
+#+HUGO_CUSTOM_FRONT_MATTER: :math true
+#+PROPERTY: header-args :results output :exports both
+#+title: Variables
+
+
+* Variables and Constants
+
+** Enumerated Types
+
+Sometimes a varible should only hold restricted set of values.
+
+ex: clothes has sizes small,Medium,Large,Extra Large.
+
+An *enumerated type* has finite number of named values.
+
+
+#+begin_src java
+enum size { SMALL , MEDIUM , LARGE , EXTRA_LARGE };
+
+// declare varible of this type
+
+Size s = Size.SMALL;
+#+end_src
+
+A variable of enumerated type can hold one of the values listed int the type declaration or null.

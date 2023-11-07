@@ -1,0 +1,21 @@
+:PROPERTIES:
+:DIR:      static/img/
+:END:
+#+HUGO_BASE_DIR: ../../
+#+PROPERTY: EXPORT_HUGO_SECTION notes/ds-algo
+#+OPTIONS: tags:nil \n:t
+#+HUGO_CUSTOM_FRONT_MATTER: :toc true
+#+HUGO_CUSTOM_FRONT_MATTER: :math true
+#+PROPERTY: header-args :results output :exports both
+#+title: Sorting
+
+
+
+
+* Sorting
+
+** Selection Sort
+
+#+begin_src cpp
+
+#+end_src

@@ -1,0 +1,67 @@
+:PROPERTIES:
+:DIR:      static/img/
+:END:
+#+HUGO_BASE_DIR: ../../../
+#+PROPERTY: EXPORT_HUGO_SECTION notes/iitm/mlf
+#+OPTIONS: tags:nil \n:t
+#+HUGO_CUSTOM_FRONT_MATTER: :toc true
+#+HUGO_CUSTOM_FRONT_MATTER: :math true
+#+PROPERTY: header-args :results output :exports both
+#+title: Supervised Learning
+
+* Supervised Learning
+*Notations:*
+- \(\displaystyle \mathbb{R} :\)real numbers, \(\displaystyle \mathbb{R}_{+} :\) Positive reals, \(\displaystyle \mathbb{R}^{d} :\) d-dimensional vector of reals
+
+- \(\displaystyle x:\)vector, \(\displaystyle x_{j} :j^{th}\) co-ordinate. \(\displaystyle \Vert x\Vert :\) Length of vector \(\displaystyle x.\)
+
+- \(\displaystyle x^{1} ,\ x^{2} \ ,x^{3} ,.........,x^{n} :\) Collection of n vectors.
+
+- \(\displaystyle x_{j}^{i} :\ j^{th}\) co-ordinate of \(\displaystyle i^{th}\) vector.
+
+- \(\displaystyle ( x_{1})^{2} :\) Square fo the first co-ordinate of the vector \(\displaystyle x\).
+
+- \(\displaystyle I( 2\ is\ even) \ =\ 1\). \(\displaystyle I( 2\ is\ odd) \ =\ 0\) .
+
+*Supervised Learning* at its core is simply curve fitting.
+
+Given \(\displaystyle \left\{\left( x^{1} ,y^{1}\right) ,\left( x^{2} ,y^{2}\right) ,\dotsc ,\left( x^{n} ,y^{n}\right)\right\}\) find model \(\displaystyle f\) such that \(\displaystyle f\left( x^{i}\right)\) *close to* \(\displaystyle y^{i}\).
+
+** Regression
+- Training data: \(\displaystyle \left\{\left( x^{1} ,y^{1}\right) ,\left( x^{2} ,y^{2}\right) ,\dotsc ,\left( x^{n} ,y^{n}\right)\right\}\)
+
+- \(\displaystyle x^{i} \in \mathbb{R}^{d} \ ,\ y^{i} \in \mathbb{R} \ \).
+  (\(\displaystyle x^{i}\) would be in a d-dimensional space and \(\displaystyle y^{i}\) would be real valued.)
+
+- Algoritm outputs a model from \(\displaystyle f:\mathbb{R}^{d}\rightarrow \mathbb{R}\).
+  (Learning algo would output a model \(\displaystyle f\) which is essentially a functin from \(\displaystyle \mathbb{R}^{d} \ to\ \mathbb{R}\))
+
+- Loss \(\displaystyle [ f]\) = \(\displaystyle \frac{1}{n}\sum _{i=1}^{n}\left( f\left( x^{i}\right) -y^{i}\right)^{2}\)
+  (Loss of \(\displaystyle f\) simply measures the deviation of \(\displaystyle f\) of \(\displaystyle x^{i} \ \)from \(\displaystyle y^{i}\) by a square of things.)
+
+- \(\displaystyle f( x) =\ w^{\top } x+b\ =\ \sum _{j=1}^{d} w_{j} x_{j} +b\)
+
+- Goal of learning algorithms is to find a model with smallest loss possible.
+  (if \(\displaystyle f\left( x^{i}\right) \ =\ y^{i}\) for all \(\displaystyle i\ \)then that is the samllest loss possible.)
+
+** Classification
+- Training data: \(\displaystyle \left\{\left( x^{1} ,y^{1}\right) ,\left( x^{2} ,y^{2}\right) ,\dotsc ,\left( x^{n} ,y^{n}\right)\right\}\)
+
+- \(\displaystyle x^{i} \in \mathbb{R}^{d} \ ,\ y^{i} \in \{+1,−1\} \ \)
+
+- Algoritm outputs a model from \(\displaystyle f:\mathbb{R}^{d}\rightarrow \{+1,−1\}\).
+  (Learning algo would output a model \(\displaystyle f\) which is essentially a functin from \(\displaystyle \mathbb{R}^{d} \ to\ \{+1,−1\}\) .)
+
+- Loss \(\displaystyle [ f]\) = \(\displaystyle \frac{1}{n}\sum _{i=1}^{n} 1\left( f\left( x^{i}\right) \neq y^{i}\right)\)
+
+- \(\displaystyle f( x) =sign\left( \ w^{\top } x+b\ \right)\)
+
+
+** Evaluating Learned Models
+- Learning algorith uses trainig data to get model \(f\).
+- But evaluating the learned model must *not* be done on the trainig data itself.
+- Use test data that is *not* in the training data for model evaluation
+
+** Model Selection
+- Learning algorithms just find the "best" model in the collection of models given by the human.
+- This is model selection, and it is done by using another subset of data called *validation data* that is distinct from train and test data.

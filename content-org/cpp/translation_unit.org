@@ -1,0 +1,55 @@
+:PROPERTIES:
+:DIR:      static/img/
+:END:
+#+HUGO_BASE_DIR: ../../
+#+PROPERTY: EXPORT_HUGO_SECTION notes/cpp
+#+OPTIONS: tags:nil \n:t
+#+HUGO_CUSTOM_FRONT_MATTER: :toc true
+#+HUGO_CUSTOM_FRONT_MATTER: :math true
+#+PROPERTY: header-args :results output :exports both
+#+title: Translation Unit
+
+
+
+* Translational Unit
+
+When the processing of code file is completed by the preprocessor, the result is called *translational unit*.
+
+- Translational units contain source code we write as well as the processed code from #include files.
+
+- The translational unit is what compiled by the compiler.
+
+#+begin_src cpp
+// add.h
+int add(int x, int y)
+#+end_src
+
+#+begin_src cpp
+// add.cpp
+#include "add.h"
+
+int add(int x,int y){
+    return x+y;
+}
+#+end_src
+
+In the above code blocks we have two files one contain function delcaration(add.h) and other contain function definitions(add.c).This two files make one translational unit.we compile it in the following way.
+
+#+begin_src bash
+g++ -c add.cpp
+#+end_src
+
+
+#+begin_src cpp
+// main.cpp
+
+#include <iostream>
+
+int main(int argc, char *argv[]) {
+    int x = 10;
+    int y = 20;
+    std::cout << "Addition of x and y: " << add(x,y);
+    return 0;
+}
+
+#+end_src

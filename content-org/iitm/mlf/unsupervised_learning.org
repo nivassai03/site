@@ -1,0 +1,52 @@
+:PROPERTIES:
+:DIR:      static/img/
+:END:
+#+HUGO_BASE_DIR: ../../../
+#+PROPERTY: EXPORT_HUGO_SECTION notes/iitm/mlf
+#+OPTIONS: tags:nil \n:t
+#+HUGO_CUSTOM_FRONT_MATTER: :toc true
+#+HUGO_CUSTOM_FRONT_MATTER: :math true
+#+PROPERTY: header-args :results output :exports both
+#+title: Unsupervised Learning
+
+* Unsupervised Learning
+- Unsupervised learning is 'understanding data'.
+
+- Data: \(\displaystyle \left\{x^{1} ,x^{2} ,\dotsc ,x^{n}\right\}\)
+
+- \(\displaystyle x^{i} \ \in \mathbb{R}^{d} \ \)
+
+- Build models that compress,explain and group data
+
+** Dimensionality Reduction
+Eg: Represent a million gene expressions levels of a million people,using just 100 numbers per person.
+
+- Data: \(\displaystyle \left\{x^{1} ,x^{2} ,\dotsc ,x^{n}\right\}\)
+
+- \(\displaystyle x^{i} \ \in \mathbb{R}^{d} \ \)
+
+- Encoder: \(\displaystyle f:\mathbb{R}^{d} \ \rightarrow \mathbb{R}{^{d}}^{'}\)
+  (always \(\displaystyle d\ < \ d^{'}\))
+
+- Decoder \(\displaystyle f:\ \mathbb{R}{^{d}}^{1}\rightarrow R^{d}\)
+
+- Goal : \(\displaystyle g\left( f\left( x^{i}\right)\right) \approx x^{i}\)
+
+- Loss = \(\displaystyle  \frac{1}{n}\sum _{i=1}^{n} \| \ g\left( f\left( x^{i}\right)\right) -x^{i} \ \| ^{2}\)
+
+** Density Estimation
+Eg: Assuming  tweets from an account are independently generated randomly. create a robot account that generate more such tweets.
+
+To generate such sentences randomly, we need to to be able to assign a probability score to every possible 128 character sentence,giving high scores to those that are likely to be from the original source
+
+A density estimation model takes in several samples from a random source, and outputs a model that assigns a probability score to every possible instance.
+
+- Data: \(\displaystyle \left\{x^{1} ,x^{2} ,\dotsc ,x^{n}\right\}\)
+
+- \(\displaystyle x^{i} \ \in \mathbb{R}^{d} \ \)
+
+- Probability mapping \(\displaystyle P:\mathbb{R}^{d}\rightarrow \mathbb{R}_{+} \ \)that 'sums' to one.
+
+- Goal: \(\displaystyle P( x)\) is large if \(\displaystyle x\ \in \ \)Data, and low otherwise.
+
+- Loss = \(\displaystyle \frac{1}{n}\sum _{i=1}^{1}\)\(\displaystyle −\log\left( P\left( x^{i}\right)\right)\)

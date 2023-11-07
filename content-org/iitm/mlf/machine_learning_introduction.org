@@ -1,0 +1,216 @@
+:PROPERTIES:
+:DIR:      static/img/
+:END:
+#+HUGO_BASE_DIR: ../../../
+#+PROPERTY: EXPORT_HUGO_SECTION notes/iitm/mlf
+#+OPTIONS: tags:nil \n:t
+#+HUGO_CUSTOM_FRONT_MATTER: :toc true
+#+HUGO_CUSTOM_FRONT_MATTER: :math true
+#+PROPERTY: header-args :results output :exports both
+#+title: Machine Learning Introduction
+
+* Introduction
+** What is Machine Learning :ATTACH:
+:PROPERTIES:
+:ID:       b0c4fd4e-dc39-4a48-9ac4-d33c91637310
+:END:
+**Definition:** Machine learning(ML) is the study of computer algorithms that improve automatically through experience and by the use of data.
+
+*** Task
+- **Task** is something which converts input to an output.
+- Task can be performed in various levels.
+**** Task Hierarchy :ATTACH:
+
+[[attachment:_20230516_231852_20230414_203047screenshot.png]]
+
+*** Why and When Machine Learning?
+    - When Humans or Programming Fails
+      - When Scale or Speed or Cost becomes large for human labor
+      - When we can't express the condition in langugae (ex: Face Detection)
+      - When we don't know the rules for transforming input to ouput (ex: Weather Prediction).
+
+
+    - Where Machine Learning can succeed
+      - Have lots of data relating to the task
+      - Have some structural idea on the rules
+*** Task Analysis
+We will analyze the following tasks whether it can be done by human labor or programming or ML.
+
+*Task - Password Verify*
+    - *Human Labor*:      It doesn't Scale.Verifying every password is impractical.
+    - *Programming*:      It doesn't have any problems in this task.
+    - *Machine Learning*: It doesn't require ML.
+
+*Task - Face Detection*
+    - *Human Labor*:      It doesn't Scale.Humans checking all faces is impractical.
+    - *Programming*:      We cannot express face in code.
+    - *Machine Learning*: Lots of images are available on internet.
+
+*Task - Weather Prediction*
+    - *Human Labor*:      Humans doesn't know the rules and can't process much information.
+    - *Programming*:      Cannot code unknown rules.
+    - *Machine Learning*: Lots of weather data available.
+
+** The Wonder of Machine Learning :ATTACH:
+    - Machine Learning is used in your email inbox to filter spam messages.
+    - It is used in e-commerce websites to recommend similar items to that of items in your cart.
+    - Smart Assistans
+    - Robot AIs
+    - Games
+    - Marketing
+
+* Data, Models and ML Task
+** Data :ATTACH:
+:PROPERTIES:
+:ID:       a8b1be8d-6ba7-4478-945f-6c01c8d17530
+:END:
+*Data* is a collection of vectors.
+
+[[attachment:_20230516_232000_20230414_203228screenshot.png]]
+
+*Meatadata* is information on the data. It makes data more readable for humans.
+Example: No of rooms, area in 100 sq.ft, Distance from metro in km, Price in 10 lakhs. (metadata for above data)
+
+** Model
+*Model* is a mathematical simplification of reality
+
+Examples:
+    - The Ideal Gas model
+    - Inverse square law for gravitational attraction
+    - Moore's law for semiconductors
+    - Cobb-Douglas model in Economics
+
+Types of Models:
+    - Predictive Model
+      - Regression Model
+      - Classification Model
+    - Probabilistic Model
+*** Predictive Models
+Their goal is to predict the future outcomes.
+
+- *Regression Model:*
+    In regression model we predict continuous vales(the output is a real value).
+
+    Ex: House Prices
+    Model the price of a house based on its area and its distance from metro.
+
+- *Classification Model:*
+    In classification model we predict discrete value(which category does the input belongs to).
+
+    Ex: Is it a cat or a dog
+    What class does the image belongs to.
+
+*** Probabilistic Model
+Their goal is to evaluate how likely a certain event or configuration is.
+
+Ex: What is the probability that a person belong to certain latitude and longitude.
+
+** Learning Alogrithm :ATTACH:
+- A learning alogrithm is what converts data into models.
+- It chooses a model from a collection of models with same structure and different parameters.
+
+** Task Hierarchy :ATTACH:
+:PROPERTIES:
+:ID:       94440261-db86-459d-9418-9caed2bd741f
+:END:
+- Tool is simply the model.
+- Learning Alogrithms build the right model with guidelines from humans and data.
+
+ [[attachment:_20230516_232027_20230414_203124screenshot.png]]
+
+*Notations:*
+- \(\displaystyle \mathbb{R} :\)real numbers, \(\displaystyle \mathbb{R}_{+} :\) Positive reals, \(\displaystyle \mathbb{R}^{d} :\) d-dimensional vector of reals
+
+- \(\displaystyle x:\)vector, \(\displaystyle x_{j} :j^{th}\) co-ordinate. \(\displaystyle \Vert x\Vert :\) Length of vector \(\displaystyle x.\)
+
+- \(\displaystyle x^{1} ,\ x^{2} \ ,x^{3} ,.........,x^{n} :\) Collection of n vectors.
+
+- \(\displaystyle x_{j}^{i} :\ j^{th}\) co-ordinate of \(\displaystyle i^{th}\) vector.
+
+- \(\displaystyle ( x_{1})^{2} :\) Square fo the first co-ordinate of the vector \(\displaystyle x\).
+
+- \(\displaystyle I( 2\ is\ even) \ =\ 1\). \(\displaystyle I( 2\ is\ odd) \ =\ 0\) .
+
+*Supervised Learning* at its core is simply curve fitting.
+
+Given \(\displaystyle \left\{\left( x^{1} ,y^{1}\right) ,\left( x^{2} ,y^{2}\right) ,\dotsc ,\left( x^{n} ,y^{n}\right)\right\}\) find model \(\displaystyle f\) such that \(\displaystyle f\left( x^{i}\right)\) *close to* \(\displaystyle y^{i}\).
+
+** Regression
+- Training data: \(\displaystyle \left\{\left( x^{1} ,y^{1}\right) ,\left( x^{2} ,y^{2}\right) ,\dotsc ,\left( x^{n} ,y^{n}\right)\right\}\)
+
+- \(\displaystyle x^{i} \in \mathbb{R}^{d} \ ,\ y^{i} \in \mathbb{R} \ \).
+  (\(\displaystyle x^{i}\) would be in a d-dimensional space and \(\displaystyle y^{i}\) would be real valued.)
+
+- Algoritm outputs a model from \(\displaystyle f:\mathbb{R}^{d}\rightarrow \mathbb{R}\).
+  (Learning algo would output a model \(\displaystyle f\) which is essentially a functin from \(\displaystyle \mathbb{R}^{d} \ to\ \mathbb{R}\))
+
+- Loss \(\displaystyle [ f]\) = \(\displaystyle \frac{1}{n}\sum _{i=1}^{n}\left( f\left( x^{i}\right) -y^{i}\right)^{2}\)
+  (Loss of \(\displaystyle f\) simply measures the deviation of \(\displaystyle f\) of \(\displaystyle x^{i} \ \)from \(\displaystyle y^{i}\) by a square of things.)
+
+- \(\displaystyle f( x) =\ w^{\top } x+b\ =\ \sum _{j=1}^{d} w_{j} x_{j} +b\)
+
+- Goal of learning algorithms is to find a model with smallest loss possible.
+  (if \(\displaystyle f\left( x^{i}\right) \ =\ y^{i}\) for all \(\displaystyle i\ \)then that is the samllest loss possible.)
+
+** Classification
+- Training data: \(\displaystyle \left\{\left( x^{1} ,y^{1}\right) ,\left( x^{2} ,y^{2}\right) ,\dotsc ,\left( x^{n} ,y^{n}\right)\right\}\)
+
+- \(\displaystyle x^{i} \in \mathbb{R}^{d} \ ,\ y^{i} \in \{+1,−1\} \ \)
+
+- Algoritm outputs a model from \(\displaystyle f:\mathbb{R}^{d}\rightarrow \{+1,−1\}\).
+  (Learning algo would output a model \(\displaystyle f\) which is essentially a functin from \(\displaystyle \mathbb{R}^{d} \ to\ \{+1,−1\}\) .)
+
+- Loss \(\displaystyle [ f]\) = \(\displaystyle \frac{1}{n}\sum _{i=1}^{n} 1\left( f\left( x^{i}\right) \neq y^{i}\right)\)
+
+- \(\displaystyle f( x) =sign\left( \ w^{\top } x+b\ \right)\)
+
+
+** Evaluating Learned Models
+- Learning algorith uses trainig data to get model \(f\).
+- But evaluating the learned model must *not* be done on the trainig data itself.
+- Use test data that is *not* in the training data for model evaluation
+
+** Model Selection
+- Learning algorithms just find the "best" model in the collection of models given by the human.
+- This is model selection, and it is done by using another subset of data called *validation data* that is distinct from train and test data.
+
+- Unsupervised learning is 'understanding data'.
+
+- Data: \(\displaystyle \left\{x^{1} ,x^{2} ,\dotsc ,x^{n}\right\}\)
+
+- \(\displaystyle x^{i} \ \in \mathbb{R}^{d} \ \)
+
+- Build models that compress,explain and group data
+
+** Dimensionality Reduction
+Eg: Represent a million gene expressions levels of a million people,using just 100 numbers per person.
+
+- Data: \(\displaystyle \left\{x^{1} ,x^{2} ,\dotsc ,x^{n}\right\}\)
+
+- \(\displaystyle x^{i} \ \in \mathbb{R}^{d} \ \)
+
+- Encoder: \(\displaystyle f:\mathbb{R}^{d} \ \rightarrow \mathbb{R}{^{d}}^{'}\)
+  (always \(\displaystyle d\ < \ d^{'}\))
+
+- Decoder \(\displaystyle f:\ \mathbb{R}{^{d}}^{1}\rightarrow R^{d}\)
+
+- Goal : \(\displaystyle g\left( f\left( x^{i}\right)\right) \approx x^{i}\)
+
+- Loss = \(\displaystyle  \frac{1}{n}\sum _{i=1}^{n} \| \ g\left( f\left( x^{i}\right)\right) -x^{i} \ \| ^{2}\)
+
+** Density Estimation
+Eg: Assuming  tweets from an account are independently generated randomly. create a robot account that generate more such tweets.
+
+To generate such sentences randomly, we need to to be able to assign a probability score to every possible 128 character sentence,giving high scores to those that are likely to be from the original source
+
+A density estimation model takes in several samples from a random source, and outputs a model that assigns a probability score to every possible instance.
+
+- Data: \(\displaystyle \left\{x^{1} ,x^{2} ,\dotsc ,x^{n}\right\}\)
+
+- \(\displaystyle x^{i} \ \in \mathbb{R}^{d} \ \)
+
+- Probability mapping \(\displaystyle P:\mathbb{R}^{d}\rightarrow \mathbb{R}_{+} \ \)that 'sums' to one.
+
+- Goal: \(\displaystyle P( x)\) is large if \(\displaystyle x\ \in \ \)Data, and low otherwise.
+
+- Loss = \(\displaystyle \frac{1}{n}\sum _{i=1}^{1}\)\(\displaystyle −\log\left( P\left( x^{i}\right)\right)\)

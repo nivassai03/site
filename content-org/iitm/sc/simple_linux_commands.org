@@ -1,0 +1,95 @@
+:PROPERTIES:
+:DIR:      static/img/
+:END:
+#+HUGO_BASE_DIR: ../../../
+#+PROPERTY: EXPORT_HUGO_SECTION notes/iitm/sc
+#+OPTIONS: tags:nil \n:t
+#+HUGO_CUSTOM_FRONT_MATTER: :toc true
+#+HUGO_CUSTOM_FRONT_MATTER: :math true
+#+PROPERTY: header-args :results output :exports both
+#+title: Simple Linux Commands
+
+
+* Simple Commands in linux :ATTACH:
+
+- *date* command
+
+    Shows current date and timestamps.
+
+    #+begin_src bash
+date
+    #+end_src
+
+- *free* command
+
+    Shows current free memory(ram) in the system.
+
+    flags:
+    -h for human readable for format
+
+    #+begin_src bash
+free -h
+    #+end_src
+
+    #+RESULTS:
+    : total        used        free      shared  buff/cache   available
+    : Mem:            15Gi       7.4Gi       5.2Gi       220Mi       3.5Gi       8.1Gi
+    : Swap:           14Gi          0B        14Gi
+
+
+- *groups* command
+
+    Shows groups to which user belong.
+
+    #+begin_src bash
+groups
+    #+end_src
+
+    #+RESULTS:
+    : nivaspvs cdrom floppy audio dip video plugdev netdev bluetooth lpadmin scanner
+
+- *ls* command
+    List the files in the directory.
+
+    #+begin_src bash
+ls -l
+    #+end_src
+
+    #+RESULTS:
+    : total 4
+    : -rw-r--r-- 1 nivaspvs nivaspvs 30 Jul 11 09:53 sample.txt
+
+  - *flags*:
+      -l  :   long list format
+
+      [[attachment:_20230726_203540screenshot.png]]
+
+     | Symbol | File type      |
+     | -      | Regular file   |
+     | d      | Directory      |
+     | l      | Symbolic link  |
+     | c      | Character file |
+     | b      | Block file     |
+     | s      | Socket file    |
+     | p      | Named pipe     |
+  - *Permission String*
+          [[attachment:_20230726_204614screenshot.png]]
+
+  - *inode*
+
+        An entry in the filesystem table about the location in storage media.
+
+        command:
+        ls -i <name>
+
+    #+begin_src bash
+ls -i sample.txt
+    #+end_src
+
+        #+RESULTS:
+        : 14811390 sample.txt
+
+
+- *chmod* command
+
+- *file* command

@@ -1,0 +1,39 @@
+:PROPERTIES:
+:DIR:      static/img/
+:END:
+#+HUGO_BASE_DIR: ../../../
+#+PROPERTY: EXPORT_HUGO_SECTION notes/iitm/pdsa
+#+OPTIONS: tags:nil \n:t
+#+PROPERTY: header-args :results output :exports both
+#+HUGO_CUSTOM_FRONT_MATTER: :toc true
+#+HUGO_CUSTOM_FRONT_MATTER: :math true
+#+HUGO_WEIGHT: 1
+#+TITLE: Search
+
+* Search
+** Binary Search
+
+#+begin_src python
+
+def binary_search(L,x):
+    list_size = len(L)
+    start = 0
+    end = list_size - 1
+    mid = 0
+    while(start <= end):
+        mid = (start+end) // 2
+
+        if x == L[mid]:
+            return mid
+
+        elif x > L[mid]:
+            start = mid+1
+        else:
+            end = mid-1
+
+    return -1
+
+
+
+
+#+end_src
