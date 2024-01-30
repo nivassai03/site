@@ -1,0 +1,477 @@
+:PROPERTIES:
+:DIR:      static/img/
+:END:
+#+HUGO_BASE_DIR: ../../
+#+PROPERTY: EXPORT_HUGO_SECTION notes/cpp
+#+OPTIONS: tags:nil \n:t
+#+HUGO_CUSTOM_FRONT_MATTER: :toc true
+#+HUGO_CUSTOM_FRONT_MATTER: :math true
+#+title: Template Type Deduction
+
+* Template Type Deduction
+
+Lets say we have template of the form follwing.
+#+begin_src cpp
+template<typename T>
+void func(pa_type param);
+
+func(expr);
+#+end_src
+
+During compilation compilers will deduce type for T and pa_type (different types).
+
+Template type deduction can be divided into three cases for the above.
+ 1. if *pa_type* is of reference or pointer.
+ 2. if *pa_type* is of universal reference;
+ 3. *pa_type* is of neither pointer or reference.
+
+
+* pa_type is a Reference or Pointer.
+
+** Reference
+#+begin_src cpp
+template<typename T>
+void func(T& param);
+
+func(expr);
+#+end_src
+
+- if expr is of reference type remove the reference part.
+- pattern match the expr type with pa_type to get type of T.
+
+
+Lets say we have the following variables and their respective function calls.
+
+#+begin_src cpp
+int v = 10;
+const int cv = v;
+const int& crv = v;
+
+func(v);    // expr type is int
+
+func(cv);   // expr type is const int
+
+func(crv);  // expr type is const int&
+#+end_src
+
+
+The deduced type of T and pa_type will be the following.
+#+begin_src cpp
+func(v)       - T will be of type int.
+              - pa_type will be of type int&.
+
+func(cv)      - T will be of type const int.
+              - pa_type will be of type const int&.
+
+func(crv)     - T will be of type const int.
+              - pa_type will be of type const int&.
+#+end_src
+
+- Passing const object to template taking a T& is safe as const becomes part of type deduced for T.
+
+
+** Const Reference
+
+Suppose we change pa_type from T& to const T&.
+
+#+begin_src cpp
+template<typename T>
+void func(const T& param);
+
+func(expr);
+#+end_src
+
+
+For the above considered variables v,cv,crv the deduced type of T and pa_type will be the following.
+#+begin_src cpp
+func(v)       - T will be of type int.
+              - pa_type will be of type const int&.
+
+func(cv)      - T will be of type int.
+              - pa_type will be of type const int&.
+
+func(crv)     - T will be of type int.
+              - pa_type will be of type const int&.
+#+end_src
+
+- Because pa_type is of const here, there is no need for T to be deduced as const.
+
+
+Things are essentially similar if pa_type is pointer.
+
+
+#+begin_src cpp
+template<typename T>
+void func(T* param);
+
+func(expr);
+#+end_src
+
+#+begin_src cpp
+int v = 10;
+const int* cpv = v;
+
+func(v);    // expr type is int
+
+func(cpv);  // expr type is const int*
+#+end_src
+
+
+The deduced type of T and pa_type will be the following.
+#+begin_src cpp
+func(&v)      - T will be of type int.
+              - pa_type will be of type int*.
+
+func(crv)     - T will be of type const int.
+              - pa_type will be of type const int*.
+#+end_src
+
+
+* pa_type is a Universal Reference
+
+
+#+begin_src cpp
+template<typename T>
+void func(T&& param);
+
+func(expr);
+#+end_src
+
+Type deduction for universal reference works in following ways.
+ 1. if expr is an *lvalue*,both T and pa_type are deduced as lvalue references.(only situation in template type deduction where T is deduced to be reference).
+ 2. if expr is an *rvalue* type deduction works similar to above case.(pa_type being reference).
+
+#+begin_src cpp
+int v = 10;
+const int cv = v;
+const int& crv = v;
+
+func(v);    // v is lvalue
+
+func(cv);   // cv is lvalue
+
+func(crv);  // crv is lvalue reference
+
+func(100);  // expr type is rvalue
+#+end_src
+
+
+The deduced type of T and pa_type will be the following.
+#+begin_src cpp
+func(v)       - T will be of type int&.
+              - pa_type will be of type int&.
+
+func(cv)      - T will be of type const int&.
+              - pa_type will be of type const int&.
+
+func(crv)     - T will be of type const int&.
+              - pa_type will be of type const int&.
+
+func(100)     - T will be of type int.
+              - pa_type will be of type int&&.
+#+end_src
+
+we can think of these in the following ways
+- Universal reference gives a best possible reference according to the type you provide.
+- A lvalue and a lvalue reference can only be bound to lvalue reference.So for lvalues it gives lvalue reference.
+- A rvalue and a rvalue reference can only be bound to rvalue reference.So for rvalues it gives rvalue reference.
+
+** Collapsing Rules
+
+Below are the collapsing rules in c++.
+#+begin_src
+ Type&  &   becomes  Type&
+ Type&  &&  becomes  Type&
+ Type&& &   becomes  Type&
+ Type&& &&  becomes  Type&&
+#+end_src
+
+
+Above type deduction works as follows using collapsing rules.
+
+| expr is: | T is:           | pa_type is:                 |
+| lvalue   | int&(v)         | int& &&       => int&       |
+| lvalue   | const int&(crv) | const int& && => const int& |
+| rvalue   | int(100)        | int&&         => int&&      |
+
+
+
+* pa_type is Neither a Pointer nor Universal Reference
+
+
+#+begin_src cpp
+template<typename T>
+void func(T param);
+
+func(expr);
+#+end_src
+
+In the above code we are dealing with pass by value.That means param will be a copy of object passed.
+
+Type deduction for pass by value work in following ways.
+ 1. if expr type is a reference , ignore the reference part.
+ 2. if after ignoring reference part,expr is const or volatile ignore both.
+
+#+begin_src cpp
+int v = 10;
+const int cv = v;
+const int& crv = v;
+
+func(v);    // expr type is int
+
+func(cv);   // expr type is const int
+
+func(crv);  // expr type is const int&
+#+end_src
+
+
+The deduced type of T and pa_type will be the following.
+#+begin_src cpp
+func(v)       - T will be of type int.
+              - pa_type will be of type int.
+
+func(cv)      - T will be of type int.
+              - pa_type will be of type int.
+
+func(crv)     - T will be of type int.
+              - pa_type will be of type int.
+#+end_src
+
+- As param is a copy, it is independent of v,cv,crv.So it doesn't matter whether they are const or non-const we can do anything with the copy.
+
+** Const Pointer to Const Object
+
+#+begin_src cpp
+const char* const ptr = "Pointer";
+
+#+end_src
+
+if the expression is of type const pointer to const object the deduction will work as follows.
+
+#+begin_src cpp
+func(ptr)     - T will be of type int.
+              - pa_type will be of type const *.
+#+end_src
+
+- The const to the left of * says that we can't modify what pointer is pointing to through this pointer.
+- The const to the right of * says that we can't reassign the pointer.
+- ptr will be passed by value. According to type deduction rules for by value parameters , the constness of ptr will be ignored.
+- But the constness of what the pointer points to is preserved.
+
+
+* Examining Compiler Deduced Types.
+
+we can see the type deduced by the compiler using type_index of boost library.
+
+
+** Case 1: Reference Type or Pointer
+
+#+begin_src cpp
+#include <iostream>
+#include <boost/type_index.hpp>
+using std::cout;
+using boost::typeindex::type_id_with_cvr;
+
+// param type is reference or Pointer
+template<typename T>
+void func(T& param){
+    cout << "T type: " << type_id_with_cvr<T>().pretty_name() << "\n";
+    cout << "Param type: " << type_id_with_cvr<decltype(param)>().pretty_name() << "\n";
+}
+
+
+int main(){
+    int x = 10;
+    const int cx = x;
+    const int& crx = cx;
+    const int* cpx = &x;
+    const int* const cpcx = &x;
+    std::cout <<"expr type: "  << type_id_with_cvr<decltype(x)>().pretty_name() << "\n";
+    func(x);
+    std::cout << "---------\n";
+    std::cout <<"expr type: " <<  type_id_with_cvr<decltype(cx)>().pretty_name() << "\n";
+    func(cx);
+    std::cout << "---------\n";
+    std::cout <<"expr type: " << type_id_with_cvr<decltype(crx)>().pretty_name() << "\n";
+    func(crx);
+    std::cout << "---------\n";
+    std::cout <<"expr type: " << type_id_with_cvr<decltype(cpx)>().pretty_name() << "\n";
+    func(cpx);
+    std::cout << "---------\n";
+    std::cout <<"expr type: " << type_id_with_cvr<decltype(cpcx)>().pretty_name() << "\n";
+    func(cpcx);
+}
+#+end_src
+
+#+begin_src cpp
+// ouput
+expr type: int
+T type: int
+Param type: int&
+---------
+expr type: int const
+T type: int const
+Param type: int const&
+---------
+expr type: int const&
+T type: int const
+Param type: int const&
+---------
+expr type: int const*
+T type: int const*
+Param type: int const*&
+---------
+expr type: int const* const
+T type: int const* const
+Param type: int const* const&
+#+end_src
+
+
+** Case 2: Universal Reference
+
+#+begin_src cpp
+#include <iostream>
+#include <boost/type_index.hpp>
+
+using std::cout;
+using boost::typeindex::type_id_with_cvr;
+
+ std::string dummyString(){
+    return "Hello";
+}
+
+template<typename T>
+void funcU(T&& param){
+    cout << "T type: " << type_id_with_cvr<T>().pretty_name() << "\n";
+    cout << "Param type: " << type_id_with_cvr<decltype(param)>().pretty_name() << "\n";
+}
+
+int main(){
+    int x = 10;
+    const int cx = x;
+    const int& crx = cx;
+    const int* cpx = &x;
+    const int* const cpcx = &x;
+    std::cout <<"expr type: "  << type_id_with_cvr<decltype(x)>().pretty_name() << "\n";
+    funcU(x);
+    std::cout << "---------\n";
+    std::cout <<"expr type: " <<  type_id_with_cvr<decltype(cx)>().pretty_name() << "\n";
+    funcU(cx);
+    std::cout << "---------\n";
+    std::cout <<"expr type: " << type_id_with_cvr<decltype(crx)>().pretty_name() << "\n";
+    funcU(crx);
+    std::cout << "---------\n";
+    std::cout <<"expr type: " << type_id_with_cvr<decltype(cpx)>().pretty_name() << "\n";
+    funcU(cpx);
+    std::cout << "---------\n";
+    std::cout <<"expr type: " << type_id_with_cvr<decltype(23)>().pretty_name() << "\n";
+    funcU(23);
+    std::cout << "---------\n";
+    std::cout <<"expr type: " << type_id_with_cvr<decltype(dummyString())>().pretty_name() << "\n";
+    funcU(dummyString());
+    std::cout << "---------\n";
+    std::cout <<"expr type: " << type_id_with_cvr<decltype(cpcx)>().pretty_name() << "\n";
+    funcU(cpcx);
+    std::cout <<"expr type: " << type_id_with_cvr<decltype(dummyString())>().pretty_name() << "\n";
+}
+#+end_src
+
+#+begin_src cpp
+// output
+
+expr type: int
+T type: int&
+Param type: int&
+---------
+expr type: int const
+T type: int const&
+Param type: int const&
+---------
+expr type: int const&
+T type: int const&
+Param type: int const&
+---------
+expr type: int const*
+T type: int const*&
+Param type: int const*&
+---------
+expr type: int
+T type: int
+Param type: int&&
+---------
+expr type: std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >
+T type: std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >
+Param type: std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&
+---------
+expr type: int const* const
+T type: int const* const&
+Param type: int const* const&
+
+#+end_src
+
+** Case 3: Niether Pointer or Reference
+
+#+begin_src cpp
+#include <iostream>
+#include <boost/type_index.hpp>
+
+using std::cout;
+using boost::typeindex::type_id_with_cvr;
+
+std::string dummyString(){
+    return "Hello";
+}
+template<typename T>
+void funcV(T param){
+    cout << "T type: " << type_id_with_cvr<T>().pretty_name() << "\n";
+    cout << "Param type: " << type_id_with_cvr<decltype(param)>().pretty_name() << "\n";
+}
+
+int main(){
+    int x = 10;
+    const int cx = x;
+    const int& crx = cx;
+    const int* cpx = &x;
+    const int* const cpcx = &x;
+    std::cout <<"expr type: "  << type_id_with_cvr<decltype(x)>().pretty_name() << "\n";
+    funcV(x);
+    std::cout << "---------\n";
+    std::cout <<"expr type: " <<  type_id_with_cvr<decltype(cx)>().pretty_name() << "\n";
+    funcV(cx);
+    std::cout << "---------\n";
+    std::cout <<"expr type: " << type_id_with_cvr<decltype(crx)>().pretty_name() << "\n";
+    funcV(crx);
+    std::cout << "---------\n";
+    std::cout <<"expr type: " << type_id_with_cvr<decltype(cpx)>().pretty_name() << "\n";
+    funcV(cpx);
+    std::cout << "---------\n";
+    std::cout <<"expr type: " << type_id_with_cvr<decltype(cpcx)>().pretty_name() << "\n";
+    funcV(cpcx);
+
+}
+
+#+end_src
+
+#+begin_src cpp
+// output
+
+expr type: int
+T type: int
+Param type: int
+---------
+expr type: int const
+T type: int
+Param type: int
+---------
+expr type: int const&
+T type: int
+Param type: int
+---------
+expr type: int const*
+T type: int const*
+Param type: int const*
+---------
+expr type: int const* const
+T type: int const*
+Param type: int const*
+#+end_src

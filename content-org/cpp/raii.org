@@ -1,0 +1,27 @@
+#+title: Raii
+
+
+Rule of Three
+- If your class directly manages some kind of resource then you almost certainly need to hand-write three special member functions.
+
+  - A desctructor
+  - A Copy Constructor
+  - A Copy assignment operator
+
+
+Defaulted special member functions
+
+when a special member function definition has the body=default; instead of a curly-braced compound statement, the compiler will create a defaulted version of that function, just as if it were implicitly generated.
+Explicitly defaulting your special member can help your code to self-documenting
+
+
+Rule of Zero
+
+If your class does not directly manage any resource but merely uses library components such as vector and string,then you should strive to write no special member functions.
+Default them all
+Let the Compiler implicitly generate a defaulted destructor
+
+Let the Compiler generate the copy constructor
+
+Let the Compiler generate the copy assignment operator.
+(But you own swap might improve performance).

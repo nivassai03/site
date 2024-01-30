@@ -1,0 +1,9 @@
+#+title: Chrono
+
+
+Durations
+
+- A time duration is a period of time.
+  - 3 second
+  - 3 minutes
+  - 3 hours

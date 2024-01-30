@@ -1,0 +1,36 @@
+:PROPERTIES:
+:DIR:      static/img/
+:END:
+#+HUGO_BASE_DIR: ../../
+#+PROPERTY: EXPORT_HUGO_SECTION notes/cpp
+#+OPTIONS: tags:nil \n:t
+#+HUGO_CUSTOM_FRONT_MATTER: :toc true
+#+HUGO_CUSTOM_FRONT_MATTER: :math true
+#+PROPERTY: header-args :results output :exports both
+#+title: Move Semantics
+
+
+- To pass a named object a as an argument to a && âmoveâ parameter (rvalue reference parameter), write std::move(a). Thatâs pretty much the only time you should write std::move, because C++ already uses move automatically when copying from an object it knows will never be used again, such as a temporary object or a local variable being returned or thrown from a function.
+
+
+
+Articles:
+1. [[https://herbsutter.com/2020/02/17/move-simply/][Move, simply]]
+2.[[https://blog.vero.site/post/rvalue-references][C++ Rvalue References: The Unnecessarily Detailed Guide]]
+
+
+
+Universal Reference / Forward Reference
+
+Rule:
+
+- if parameter type is an rvalue reference to cv-unqualified template parameter and the argument is an lvalue, the type "lvalue reference to T" is used in place of T for type deduction.
+
+
+
+- Collapsing rule in c++ (reference collapsing)
+
+Type&   &   becomes Type&
+Type&   &&  becomes Type&
+Type&&  &   becomes Type&
+Type&&  &&  becomes Type&&

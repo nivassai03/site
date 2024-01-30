@@ -1,0 +1,52 @@
+:PROPERTIES:
+:DIR:      static/img/
+:END:
+#+HUGO_BASE_DIR: ../../
+#+PROPERTY: EXPORT_HUGO_SECTION notes/cpp
+#+OPTIONS: tags:nil \n:t
+#+HUGO_CUSTOM_FRONT_MATTER: :toc true
+#+HUGO_CUSTOM_FRONT_MATTER: :math true
+#+PROPERTY: header-args :results output :exports both
+#+title: Memory Layout
+
+- From Source File to executable File
+
+
+- An Object module contains all source code statements translated to machine code instructions.
+
+
+- The header section  contains the sizes of all the other sections involved – including the size of the uninitialized data section, which is not created until load time – in order to parse the object module
+
+
+Object Module Structure
+
+[[attachment:_20231116_201900screenshot.png]]
+
+
+
+[[attachment:_20231116_202114screenshot.png]]
+
+
+Creation of load Module.
+
+- The Object module is linked with other library object modules (module containing code for program termination and if inculded other library modules)
+
+- In the first phase ,relocation the object files are merged together and internal address references with each object module must be updated to reflect the offset changes brought on by merging all modules into one.
+
+- In the following phase, linking, external address references in each object module must be resolved.
+
+
+
+
+[[attachment:_20231116_204632screenshot.png]]
+
+
+- Loading and Memory Mapping
+
+
+
+
+[[attachment:_20231116_211008screenshot.png]]
+
+
+Function and Function Calls

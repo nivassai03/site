@@ -1,0 +1,181 @@
+
+#+title: Value Categories
+
+
+Literals
+- Most literals are rvalues,includding
+- numeric literals,such as 3 and 3.1415
+- character literals,such as 'a'
+
+
+- They don't necessarily occupy data storage.
+
+- However,character string literals, such as "xyzzy", are lvalues.
+- They occupy data storage.
+
+
+Lvalues Used as Rvalues.
+
+- An lvalue can appear on either side of an assignment.
+#+begin_src cpp
+int m,n;
+m=n; // m and n are both lvalues.
+#+end_src
+- This assignment uses the lvalue expression n as rvalue.
+- C++ performas an lvalue-to-rvalue conversion.
+
+- The Concepts of lvalue and rvalue apply in all expression (ex binary + operator must be expressions)
+
+- temporary objects are rvalue.(result of m + n)
+
+- Lvalue-ness is a compile-time property.
+
+Data Storage for Expressions:
+
+- Conceptually, rvalues(of non-class type) don't occupy data storage in the object program.
+  - in truth some might.
+
+- Conceptually, lvalues(of any type) occupy data storages.
+  - in truth , the optimizer might eliminate some of them.(when not noticed.)
+
+Rvalues of class type
+
+- Conceptually , ravlues of class tye do occupy data storage.
+
+  why?
+
+  - The compiler uses a base+offset calculation to access member variables.
+  - Therefore the rvalue of class types must have a base address.
+  - This is why rvalues of class types must be treated differently.
+
+Non-Mondifiable Lvalues
+
+- Not all lvalues can appear on the left of an assignment
+- an lvalue is non-modifiable if it has a const qualified type.
+
+summary of lvalues and rvalues
+
+|                       | can take the address of | can assingn to |
+| lvalue                | yes                     | yes            |
+| non-modifiable lvalue | yes                     | no             |
+| (non-class)rvalue     | no                      | no             |
+
+References
+
+- References can provide friendlier function interfaces.
+- C++ has references so that overloaded operators can just like built-in operators.
+
+- A "reference to const" parameter will accept an argument an argument that's either const or non-const.
+
+- in contrast a reference parameter will accept only a non-const argument.
+
+- when it appears in an expression a "reference to const" yields a non-modifiable lvalue.
+
+References and Temporaries
+
+- A "pointer to T" can point only to an lvalue of type T.
+- similarly a "reference to T" binds only to an lvalue of type T.
+
+- There is an exception to above rule.
+  - A "reference to const T" can bind to an expression x that's not an lvalue of type T
+  - if there's a conversion from x's type to T.
+
+- In this case, the compiler creates a temporary object to hold a copy of x converted  to T.
+  - This is so the reference has something to bind to.
+
+This special behaviour enables passing by "reference to const" to consistently have the same outward behavior as passing by value.
+
+#+begin_src cpp
+long double x;
+void f(long double ld); // value
+
+    f(x); // passes a copy of x
+f(1); // passes a copy of 1 converted to long double
+#+end_src
+
+#+begin_src cpp
+long double x;
+void f(long double const &ld); // value
+
+    f(x); // passes a reference of x
+f(1); // passes a reference to a temporary containig 1 converted to long double.
+#+end_src
+
+- Both function calls behave same.
+
+- The temporary is still an rvalue,but it occupies data storage.
+  - just like rvalues of class types do.
+
+There are actually two kinds of rvalues:
+ - "Pure rvalues" or prvalues which don't occupy data storage.
+ - "Expiring values" or xvalues, which do.
+
+ - The temporary object is created through temporary materialization convertion.
+
+   - It converts a prvalue into an xvalue.
+
+- lvalue references declaration uses the &operator, an rvalue reference uses the && operator.
+
+- You can use "rvalue references" as function parameters and return types
+
+- You can also have an "rvalue reference to const"
+
+- Rvalue references bind only to rvalues.
+  - True even for "rvalue references to const"
+
+- Binding an "rvalue reference" to an rvalue triggers a temporary materialization conversion.
+  - Just like binding an "lvalue reference to const" to an rvalue.
+
+- Assigning from an lvalue results in copy assignment.
+  - The value isn't expiring so it must be preserved.
+
+- Assigning from an rvalue results in move assignment.
+  - The value expires at the end of the statement , so it can be safely moved.
+
+
+- Building an "rvalue reference" to an rvalue triggers a temporary materialization conversion.
+  - just like building an "lvalue reference to const" to an rvalue.
+
+- Assigning from an lvalue results in copy assignment.
+
+- Assigning from an rvalue results in move assignment.
+
+- Building an "rvalue reference" to an rvalue creates an xvalue.
+
+  #+begin_src cpp
+string& string::operator=(string &&other){
+
+    string temp(other); // calls string(string const &)
+}
+  #+end_src
+
+- Within operator=,other exists for the duration of the function.
+  - In this context, it's an lvalue!
+
+- In general,~if it has a name, it's an lvalue~
+
+  Lvalues as Xvalues
+
+- Its safe to move from an lvalue only if it's expiring.
+  - The compiler can't always recognize an expiring value.
+
+
+- This is what std::move does.
+
+  - To move from an lvalue ,you need to convert it to an xvalue.
+  - in other words, convert it to an unnamed rvalue reference.
+
+
+Articles
+[[https://blog.knatten.org/2018/03/09/lvalues-rvalues-glvalues-prvalues-xvalues-help/][lvalues, rvalues, glvalues, prvalues, xvalues, help!]]
+[[https://learn.microsoft.com/en-us/windows/uwp/cpp-and-winrt-apis/cpp-value-categories][Value categories, and references to them]]
+
+
+-------------------------------------------------------------
+
+- a prvalue will be used only as an unmaterialized recipie of an object, until actual materialization is required.
+- a prvalue is an expression whose evaluation initializes/materializes an object(temporary materialization conversion).
+
+- Temporary materialization (an implicit prvalue to xvalue conversion).
+
+- prvalues are not moved from.

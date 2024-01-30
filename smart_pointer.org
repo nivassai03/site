@@ -1,0 +1,5 @@
+:PROPERTIES:
+:ID:       dc01e784-e5c2-4373-b57a-bd2e91dba834
+:END:
+#+title: Smart Pointer
+Let the Compiler generate the copy constructor

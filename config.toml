@@ -33,10 +33,12 @@ theme = 'mytheme'
   [markup.goldmark]
     [markup.goldmark.parser]
       [markup.goldmark.parser.attribute]
-        block = true
+        block = false
         title = true
     [markup.goldmark.renderer]
-      unsafe = true
+      hardWraps = true
+      unsafe = false
+      xhtml = false
   [markup.highlight]
     noClasses = false
     lineNos = false

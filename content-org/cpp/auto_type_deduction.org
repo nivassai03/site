@@ -1,0 +1,235 @@
+:PROPERTIES:
+:DIR:      static/img/
+:END:
+#+HUGO_BASE_DIR: ../../
+#+PROPERTY: EXPORT_HUGO_SECTION notes/cpp
+#+OPTIONS: tags:nil \n:t
+#+HUGO_CUSTOM_FRONT_MATTER: :toc true
+#+HUGO_CUSTOM_FRONT_MATTER: :math true
+#+title: Auto Type Deduction
+
+
+* Auto Type Deduction
+
+*Auto type deduction is essentially template type deduction (with one exception).*
+
+Lets map auto type deduction to template type deduction.We have template of the form follwing.
+
+#+begin_src cpp
+template<typename T>
+void func(pa_type param);
+
+func(expr);
+#+end_src
+
+- Compilers using expr type deduce T and pa_type.When a variable is declared auto, *auto acts as T* in template and the *type speicifier acts as pa_type*.
+
+#+begin_src cpp
+auto v = 100;              // type specifier is auto
+const auto cv = v;         // type specifier is const auto
+const auto& crv = v;       // type sepcifier is const auto&
+#+end_src
+
+Similar to template type deduction , auto type deduction can be divided into 3 cases.
+
+
+* Type specifier is a Pointer or Reference.
+
+#+begin_src cpp
+int v = 100
+const auto& crv = v;       // v is of type int
+#+end_src
+
+The deduced auto type will be of following.
+#+begin_src cpp
+auto is deduced to int(T) and type specifier is const auto&(pa_type)
+#+end_src
+
+* Type specifier is a Universal Reference.
+
+
+#+begin_src cpp
+int v = 100;
+const int cv = v;
+
+
+auto&& urv = v;           // v is int and lvalue.
+
+auto&& urcv = cv;         // cv is const int and rvalue.
+
+auto&& urrv = 30;         // 30 is int and rvalue.
+#+end_src
+
+The deduced auto types will be of following.
+
+#+begin_src cpp
+urv       - is of type int&.
+
+urcv      - is of type const int&.
+
+urrv      - is of type int&&
+#+end_src
+
+* Type specifier is Niether Pointer Nor a Reference.
+
+#+begin_src cpp
+auto v = 100;              // type specifier is auto
+
+const auto cv = v;         // type specifier is const auto
+#+end_src
+
+The deduced auto types will be of following.
+
+#+begin_src cpp
+v         - is of type int.
+
+cv        - is of type const int.
+#+end_src
+
+
+
+
+* Examining Compiler Deduced Types.
+
+Similary to template type deduction we can see the types deduced by the compiler using type_index of boost library.
+
+
+** Case 1: Reference Type or Pointer
+
+#+begin_src cpp
+#include <iostream>
+#include <boost/type_index.hpp>
+
+using std::cout;
+using boost::typeindex::type_id_with_cvr;
+
+int main(){
+
+    int v = 100;
+    auto& rv = v;
+    const auto& crv = v;
+    const auto* cpv = &v;
+    cout << "v type: " << type_id_with_cvr<decltype(v)>().pretty_name() << "\n";
+    cout << "rv type: " << type_id_with_cvr<decltype(rv)>().pretty_name() << "\n";
+    cout << "crv type: " << type_id_with_cvr<decltype(crv)>().pretty_name() << "\n";
+    cout << "cpv type: " << type_id_with_cvr<decltype(cpv)>().pretty_name() << "\n";
+}
+#+end_src
+
+
+#+begin_src cpp
+// output
+v type: int
+rv type: int&
+crv type: int const&
+cpv type: int const*
+#+end_src
+
+
+** Case 2: Universal Reference
+
+#+begin_src cpp
+#include <iostream>
+#include <boost/type_index.hpp>
+
+using std::cout;
+using boost::typeindex::type_id_with_cvr;
+
+int main(){
+
+    int v = 100;
+    const int cv = v;
+
+    auto&& urv = v;
+    auto&& urcv = cv;
+    auto&& urrv = 30;
+
+    cout << "v type: " << type_id_with_cvr<decltype(v)>().pretty_name() << "\n";
+    cout << "cv type: " << type_id_with_cvr<decltype(cv)>().pretty_name() << "\n";
+    cout << "urv type: " << type_id_with_cvr<decltype(urv)>().pretty_name() << "\n";
+    cout << "urcv type: " << type_id_with_cvr<decltype(urcv)>().pretty_name() << "\n";
+    cout << "urrv type: " << type_id_with_cvr<decltype(urrv)>().pretty_name() << "\n";
+}
+#+end_src
+
+#+begin_src cpp
+v type: int
+cv type: int const
+urv type: int&
+urcv type: int const&
+urrv type: int&&
+#+end_src
+
+
+** Case 3: Niether Pointer or Reference
+
+
+#+begin_src cpp
+#include <iostream>
+#include <boost/type_index.hpp>
+
+using std::cout;
+using boost::typeindex::type_id_with_cvr;
+
+int main(){
+
+    auto v = 100;
+    const auto cv = v;
+
+    cout << "v type: " << type_id_with_cvr<decltype(v)>().pretty_name() << "\n";
+    cout << "cv type: " << type_id_with_cvr<decltype(cv)>().pretty_name() << "\n";
+}
+
+#+end_src
+
+#+begin_src cpp
+v type: int
+cv type: int const
+#+end_src
+
+* Difference from template type deduction
+
+- auto deduces initializer in enclose braces as std::initializer_list. If it can deduce initializer_list type code will be rejected.
+- There are two type of type deduction happening here one for auto variable and another one for T of std::initializer_list<T>.
+
+#+begin_src cpp
+auto v = 10;     - type is int.
+
+auto u{10};      - type is int.
+
+auto t = {27};   - type is std::initializer_list<int>
+
+auto x{27};      - same as above
+
+#+end_src
+
+
+
+#+begin_src cpp
+auto s = {1,2,3.0}   - can't deduce T for std::initializer_list<T>.
+#+end_src
+
+
+#+begin_src cpp
+using std::cout;
+using boost::typeindex::type_id_with_cvr;
+
+int main(){
+
+    auto v = {1};
+
+    cout << "v type: " << type_id_with_cvr<decltype(v)>().pretty_name() << "\n";
+
+}
+#+end_src
+
+#+begin_src cpp
+v type: std::initializer_list<int>
+#+end_src
+
+
+* Auto function return type
+
+- C++14 permits auto as function return types.And also lambdas can use auto in paramerter declarations.
+- However in case of function return types *auto employs template type deduction,not auto type declaration.*
+- So function that returns initializer_list and have auto return type won't compile.

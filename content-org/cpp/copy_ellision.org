@@ -1,0 +1,7 @@
+#+title: Copy Ellision
+
+https://shaharmike.com/cpp/rvo/
+
+
+Articles
+[[https://shaharmike.com/cpp/rvo/][Return Value Optimization]]
